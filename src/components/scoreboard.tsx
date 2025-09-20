@@ -1,6 +1,11 @@
 import { useState } from 'react';
 
-import { addPoint, formatScore, type ScoreState } from '@/domain/scoreboard';
+import {
+  addPointWithSetLogic,
+  formatScore,
+  formatSets,
+  type ScoreState,
+} from '@/domain/scoreboard';
 
 export function Scoreboard() {
   const [scoreState, setScoreState] = useState<ScoreState>({
@@ -9,35 +14,49 @@ export function Scoreboard() {
   });
 
   function handleAddPoint(teamName: string) {
-    setScoreState((currentState) => addPoint(currentState, teamName));
+    setScoreState((currentState) => addPointWithSetLogic(currentState, teamName));
   }
 
   return (
-    <div>
+    <div data-testid="scoreboard">
       <h1>Placar de Vôlei</h1>
 
+      {/* Placar de sets */}
       <div>
-        <h2>{formatScore(scoreState)}</h2>
+        <h2 data-testid="sets-display">Sets: {formatSets(scoreState)}</h2>
+      </div>
+
+      {/* Placar atual */}
+      <div>
+        <h2 data-testid="score-display">{formatScore(scoreState)}</h2>
       </div>
 
       {/* Botões para adicionar pontos */}
       <div>
-        <button onClick={() => handleAddPoint(scoreState.teamA.name)}>
+        <button
+          data-testid="team-a-button"
+          onClick={() => handleAddPoint(scoreState.teamA.name)}
+        >
           +1 {scoreState.teamA.name}
         </button>
 
-        <button onClick={() => handleAddPoint(scoreState.teamB.name)}>
+        <button
+          data-testid="team-b-button"
+          onClick={() => handleAddPoint(scoreState.teamB.name)}
+        >
           +1 {scoreState.teamB.name}
         </button>
       </div>
 
-      {/* Info detalhada (opcional) */}
-      <div>
-        <p>
-          {scoreState.teamA.name}: {scoreState.teamA.points} pontos
+      {/* Info detalhada */}
+      <div data-testid="detailed-info">
+        <p data-testid="team-a-points">
+          {scoreState.teamA.name}: {scoreState.teamA.points} pontos,{' '}
+          {scoreState.teamA.sets} sets
         </p>
-        <p>
-          {scoreState.teamB.name}: {scoreState.teamB.points} pontos
+        <p data-testid="team-b-points">
+          {scoreState.teamB.name}: {scoreState.teamB.points} pontos,{' '}
+          {scoreState.teamB.sets} sets
         </p>
       </div>
     </div>
