@@ -34,3 +34,22 @@ Dado que o placar do set atual é "Time A 24 x 20 Time B"
 Quando eu clico no botão de adicionar ponto para o "Time A"
 Então o placar de sets vencidos deve ser atualizado para "Time A 1 x 0 Time B"
 E o placar do próximo set deve ser resetado para "Time A 0 x 0 Time B"
+
+Cenário: Time só pode vencer o set com 2 pontos de vantagem
+Dado que o placar do set atual é "Time A 24 x 24 Time B"
+Quando eu clico no botão de adicionar ponto para o "Time A"
+Então o placar do set atual deve ser "Time A 25 x 24 Time B"
+E nenhum set deve ser vencido ainda
+
+Cenário: Time vence com vantagem após empate em 24
+Dado que o placar do set atual é "Time A 25 x 24 Time B"
+Quando eu clico no botão de adicionar ponto para o "Time A"
+Então o placar de sets vencidos deve ser atualizado para "Time A 1 x 0 Time B"
+E o placar do próximo set deve ser resetado para "Time A 0 x 0 Time B"
+
+Cenário: Começar novo set após vitória
+Dado que o placar de sets é "Time A 1 x 0 Time B"
+E que o placar do set atual é "Time A 0 x 0 Time B"
+Quando eu clico no botão de adicionar ponto para o "Time B"
+Então o placar do set atual deve ser "Time A 0 x 1 Time B"
+E o placar de sets deve continuar "Time A 1 x 0 Time B"
