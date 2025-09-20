@@ -19,27 +19,50 @@ function parseScoreString(scoreString: string): {
   teamBPoints: number;
   teamBName: string;
 } {
-  const match = scoreString.match(/(.+) (\d+) x (\d+) (.+)/);
+  const match = scoreString.match(/^(.+?) (-?\d+) x (-?\d+) (.+?)$/);
   if (!match) throw new Error(`Invalid format: ${scoreString}`);
 
   const [, teamAName, teamAPoints, teamBPoints, teamBName] = match;
+
+  // Validate team names are not empty or whitespace only
+  if (!teamAName.trim() || !teamBName.trim()) {
+    throw new Error('Team names cannot be empty');
+  }
+
+  const pointsA = parseInt(teamAPoints, 10);
+  const pointsB = parseInt(teamBPoints, 10);
+
+  // Validate points are not negative
+  if (pointsA < 0 || pointsB < 0) {
+    throw new Error('Points cannot be negative');
+  }
+
   return {
-    teamAName,
-    teamAPoints: parseInt(teamAPoints, 10),
-    teamBPoints: parseInt(teamBPoints, 10),
-    teamBName,
+    teamAName: teamAName.trim(),
+    teamAPoints: pointsA,
+    teamBPoints: pointsB,
+    teamBName: teamBName.trim(),
   };
 }
 
 /** Adds a point to the specified team (immutable) */
 export function addPoint(state: ScoreState, teamName: string): ScoreState {
-  if (teamName === state.teamA.name) {
+  // Validate team name is not empty or whitespace only
+  if (!teamName?.trim()) {
+    throw new Error('Team name cannot be empty');
+  }
+
+  const trimmedName = teamName.trim();
+
+  if (trimmedName === state.teamA.name) {
     return updateTeam(state, 'teamA', { points: state.teamA.points + 1 });
   }
-  if (teamName === state.teamB.name) {
+  if (trimmedName === state.teamB.name) {
     return updateTeam(state, 'teamB', { points: state.teamB.points + 1 });
   }
-  return state;
+
+  // Team not found - throw error instead of silently returning unchanged state
+  throw new Error(`Team "${trimmedName}" not found`);
 }
 
 /** Formats score as "Team A 10 x 9 Team B" */
@@ -76,19 +99,28 @@ export function addPointWithSetLogic(state: ScoreState, teamName: string): Score
 
 /** Awards set to winner and resets points to 0-0 */
 export function finishSet(state: ScoreState, winnerName: string): ScoreState {
-  if (winnerName === state.teamA.name) {
+  // Validate winner name is not empty or whitespace only
+  if (!winnerName?.trim()) {
+    throw new Error('Winner name cannot be empty');
+  }
+
+  const trimmedName = winnerName.trim();
+
+  if (trimmedName === state.teamA.name) {
     return {
       teamA: { ...state.teamA, points: 0, sets: state.teamA.sets + 1 },
       teamB: { ...state.teamB, points: 0 },
     };
   }
-  if (winnerName === state.teamB.name) {
+  if (trimmedName === state.teamB.name) {
     return {
       teamA: { ...state.teamA, points: 0 },
       teamB: { ...state.teamB, points: 0, sets: state.teamB.sets + 1 },
     };
   }
-  return state;
+
+  // Winner not found - throw error
+  throw new Error(`Winner "${trimmedName}" not found`);
 }
 
 /** Formats sets as "Team A 1 x 0 Team B" */
@@ -101,14 +133,27 @@ export function parseSets(setsString: string): {
   teamA: { name: string; sets: number };
   teamB: { name: string; sets: number };
 } {
-  const {
-    teamAName,
-    teamAPoints: teamASets,
-    teamBPoints: teamBSets,
-    teamBName,
-  } = parseScoreString(setsString);
+  // Parse manually for sets to provide specific error messages
+  const match = setsString.match(/^(.+?) (-?\d+) x (-?\d+) (.+?)$/);
+  if (!match) throw new Error(`Invalid format: ${setsString}`);
+
+  const [, teamAName, teamAPointsStr, teamBPointsStr, teamBName] = match;
+
+  // Validate team names are not empty or whitespace only
+  if (!teamAName.trim() || !teamBName.trim()) {
+    throw new Error('Team names cannot be empty');
+  }
+
+  const teamASets = parseInt(teamAPointsStr, 10);
+  const teamBSets = parseInt(teamBPointsStr, 10);
+
+  // Validate sets are not negative (specific error for sets)
+  if (teamASets < 0 || teamBSets < 0) {
+    throw new Error('Sets cannot be negative');
+  }
+
   return {
-    teamA: { name: teamAName, sets: teamASets },
-    teamB: { name: teamBName, sets: teamBSets },
+    teamA: { name: teamAName.trim(), sets: teamASets },
+    teamB: { name: teamBName.trim(), sets: teamBSets },
   };
 }

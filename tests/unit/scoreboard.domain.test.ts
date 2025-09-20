@@ -2,8 +2,10 @@ import { describe, expect, it } from 'vitest';
 
 import {
   addPoint,
+  finishSet,
   formatScore,
   parseScore,
+  parseSets,
   type ScoreState,
 } from '../../src/domain/scoreboard';
 
@@ -85,16 +87,70 @@ describe('Scoreboard Domain Logic', () => {
       expect(result).not.toBe(initialState); // different object
     });
 
-    it('should return unchanged state for unknown team', () => {
-      const result = addPoint(initialState, 'Unknown Team');
-
-      expect(result).toEqual(initialState);
+    it('should throw error for unknown team', () => {
+      expect(() => addPoint(initialState, 'Unknown Team')).toThrow(
+        'Team "Unknown Team" not found',
+      );
     });
 
-    it('should handle case-sensitive team names', () => {
-      const result = addPoint(initialState, 'time a'); // lowercase
+    it('should throw error for case-sensitive team names', () => {
+      expect(() => addPoint(initialState, 'time a')).toThrow('Team "time a" not found'); // lowercase
+    });
+  });
 
-      expect(result).toEqual(initialState); // no change
+  describe('Validation Tests', () => {
+    const testState: ScoreState = {
+      teamA: { name: 'Time A', points: 10, sets: 1 },
+      teamB: { name: 'Time B', points: 9, sets: 2 },
+    };
+
+    describe('addPoint validation', () => {
+      it('should throw error for empty team name', () => {
+        expect(() => addPoint(testState, '')).toThrow('Team name cannot be empty');
+      });
+
+      it('should throw error for whitespace-only team name', () => {
+        expect(() => addPoint(testState, '   ')).toThrow('Team name cannot be empty');
+      });
+
+      it('should throw error for non-existent team', () => {
+        expect(() => addPoint(testState, 'Team C')).toThrow('Team "Team C" not found');
+      });
+    });
+
+    describe('parseScore validation', () => {
+      it('should throw error for negative points', () => {
+        expect(() => parseScore('Team A -1 x 5 Team B')).toThrow(
+          'Points cannot be negative',
+        );
+      });
+
+      it('should throw error for empty team names', () => {
+        expect(() => parseScore('   10 x 5 Team B')).toThrow(
+          'Team names cannot be empty',
+        );
+        expect(() => parseScore('Team A 10 x 5   ')).toThrow(
+          'Team names cannot be empty',
+        );
+      });
+    });
+
+    describe('parseSets validation', () => {
+      it('should throw error for negative sets', () => {
+        expect(() => parseSets('Team A -1 x 2 Team B')).toThrow(
+          'Sets cannot be negative',
+        );
+      });
+    });
+
+    describe('finishSet validation', () => {
+      it('should throw error for empty winner name', () => {
+        expect(() => finishSet(testState, '')).toThrow('Winner name cannot be empty');
+      });
+
+      it('should throw error for non-existent winner', () => {
+        expect(() => finishSet(testState, 'Team C')).toThrow('Winner "Team C" not found');
+      });
     });
   });
 });
