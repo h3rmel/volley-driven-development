@@ -1,0 +1,10 @@
+{
+  "default": {
+    "paths": ["tests/features/**/*.feature"],
+    "import": ["tests/step-definitions/**/*.ts"],
+    "format": ["progress"],
+    "formatOptions": {
+      "snippetInterface": "async-await"
+    }
+  }
+}
