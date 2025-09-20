@@ -26,7 +26,7 @@ describe('Scoreboard Domain Logic', () => {
     });
 
     it('should throw error for invalid format', () => {
-      expect(() => parseScore('invalid format')).toThrow('Invalid scoreboard format');
+      expect(() => parseScore('invalid format')).toThrow('Invalid format');
     });
 
     it('should handle team names with spaces', () => {
