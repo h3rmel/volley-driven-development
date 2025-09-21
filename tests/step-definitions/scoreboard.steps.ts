@@ -10,7 +10,12 @@ import {
   type ScoreState,
 } from '../../src/domain/scoreboard.js';
 
-let currentState: ScoreState;
+export let currentState: ScoreState;
+
+// Function to set currentState from external modules
+export function setCurrentState(state: ScoreState) {
+  currentState = state;
+}
 
 // #region Helper functions
 function assertExpected(actual: string, expected: string, context: string) {

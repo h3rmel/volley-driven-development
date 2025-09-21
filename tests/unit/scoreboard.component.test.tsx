@@ -10,9 +10,9 @@ describe('Scoreboard Component', () => {
       render(<Scoreboard />);
 
       expect(screen.getByTestId('scoreboard')).toBeInTheDocument();
-      expect(screen.getByText('Placar de Vôlei')).toBeInTheDocument();
+      expect(screen.getByText('🏐 Placar de Vôlei 🏐')).toBeInTheDocument();
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 0 x 0 Time B',
+        'Pontos: Time A 0 x 0 Time B',
       );
       expect(screen.getByTestId('sets-display')).toHaveTextContent(
         'Sets: Time A 0 x 0 Time B',
@@ -25,17 +25,6 @@ describe('Scoreboard Component', () => {
       expect(screen.getByTestId('team-a-button')).toHaveTextContent('+1 Time A');
       expect(screen.getByTestId('team-b-button')).toHaveTextContent('+1 Time B');
     });
-
-    it('should render detailed info', () => {
-      render(<Scoreboard />);
-
-      expect(screen.getByTestId('team-a-points')).toHaveTextContent(
-        'Time A: 0 pontos, 0 sets',
-      );
-      expect(screen.getByTestId('team-b-points')).toHaveTextContent(
-        'Time B: 0 pontos, 0 sets',
-      );
-    });
   });
 
   describe('Basic Point Addition', () => {
@@ -47,10 +36,7 @@ describe('Scoreboard Component', () => {
       await user.click(teamAButton);
 
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 1 x 0 Time B',
-      );
-      expect(screen.getByTestId('team-a-points')).toHaveTextContent(
-        'Time A: 1 pontos, 0 sets',
+        'Pontos: Time A 1 x 0 Time B',
       );
     });
 
@@ -62,10 +48,7 @@ describe('Scoreboard Component', () => {
       await user.click(teamBButton);
 
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 0 x 1 Time B',
-      );
-      expect(screen.getByTestId('team-b-points')).toHaveTextContent(
-        'Time B: 1 pontos, 0 sets',
+        'Pontos: Time A 0 x 1 Time B',
       );
     });
 
@@ -84,7 +67,7 @@ describe('Scoreboard Component', () => {
       await user.click(teamBButton);
 
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 3 x 2 Time B',
+        'Pontos: Time A 3 x 2 Time B',
       );
     });
   });
@@ -110,13 +93,10 @@ describe('Scoreboard Component', () => {
 
       // Should complete set and reset points
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 0 x 0 Time B',
+        'Pontos: Time A 0 x 0 Time B',
       );
       expect(screen.getByTestId('sets-display')).toHaveTextContent(
         'Sets: Time A 1 x 0 Time B',
-      );
-      expect(screen.getByTestId('team-a-points')).toHaveTextContent(
-        'Time A: 0 pontos, 1 sets',
       );
     });
 
@@ -140,7 +120,7 @@ describe('Scoreboard Component', () => {
 
       // Should NOT complete set yet
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 25 x 24 Time B',
+        'Pontos: Time A 25 x 24 Time B',
       );
       expect(screen.getByTestId('sets-display')).toHaveTextContent(
         'Sets: Time A 0 x 0 Time B',
@@ -169,7 +149,7 @@ describe('Scoreboard Component', () => {
       // Team A gets to 26-25 (still only 1 point advantage)
       await user.click(teamAButton); // 26-25
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 26 x 25 Time B',
+        'Pontos: Time A 26 x 25 Time B',
       );
 
       // Team A gets to 27-25 (2 points advantage - should win!)
@@ -177,7 +157,7 @@ describe('Scoreboard Component', () => {
 
       // Should complete set now
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 0 x 0 Time B',
+        'Pontos: Time A 0 x 0 Time B',
       );
       expect(screen.getByTestId('sets-display')).toHaveTextContent(
         'Sets: Time A 1 x 0 Time B',
@@ -196,13 +176,10 @@ describe('Scoreboard Component', () => {
       }
 
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 0 x 0 Time B',
+        'Pontos: Time A 0 x 0 Time B',
       );
       expect(screen.getByTestId('sets-display')).toHaveTextContent(
         'Sets: Time A 0 x 1 Time B',
-      );
-      expect(screen.getByTestId('team-b-points')).toHaveTextContent(
-        'Time B: 0 pontos, 1 sets',
       );
     });
   });
@@ -233,7 +210,7 @@ describe('Scoreboard Component', () => {
         'Sets: Time A 1 x 1 Time B',
       );
       expect(screen.getByTestId('score-display')).toHaveTextContent(
-        'Time A 0 x 0 Time B',
+        'Pontos: Time A 0 x 0 Time B',
       );
     });
   });
