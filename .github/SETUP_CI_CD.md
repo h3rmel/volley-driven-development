@@ -4,15 +4,37 @@ Este guia explica como configurar e usar o CI/CD completo para o projeto **Volle
 
 ## 🏗️ Arquitetura CI/CD
 
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   GitHub Repo   │ ──▶│  GitHub Actions  │ ──▶│     Vercel      │
-│                 │    │                  │    │                 │
-│  • Pull Request │    │  ✅ Lint         │    │  🚀 Deploy      │
-│  • Push to main │    │  ✅ Unit Tests   │    │  🌐 Production  │
-│                 │    │  ✅ BDD Tests    │    │                 │
-│                 │    │  ✅ Build        │    │                 │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
+```mermaid
+flowchart LR
+    A["🐙 GitHub Repo<br/>• Pull Request<br/>• Push to main"] 
+    B["🤖 GitHub Actions<br/>• ✅ Lint<br/>• ✅ Unit Tests<br/>• ✅ BDD Tests<br/>• ✅ Build"]
+    C["▲ Vercel<br/>• 🚀 Deploy<br/>• 🌐 Production"]
+    
+    A --> B --> C
+    
+    subgraph triggers ["🔥 Triggers"]
+        D["📝 Pull Request"]
+        E["🔀 Push to main"]
+    end
+    
+    subgraph actions ["⚡ GitHub Actions Jobs"]
+        F["🔍 Code Quality"]
+        G["🧪 Unit Tests"]
+        H["🥒 BDD Tests"]
+        I["🏗️ Build Test"]
+    end
+    
+    subgraph deployment ["🚀 Deployment"]
+        J["📋 Auto Release"]
+        K["🌐 Vercel Deploy"]
+    end
+    
+    triggers --> actions
+    actions --> deployment
+    
+    style A fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style B fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    style C fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
 ```
 
 ## 📋 Workflows Criados
