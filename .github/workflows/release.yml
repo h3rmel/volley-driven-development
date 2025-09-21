@@ -1,13 +1,8 @@
 name: 🚀 Release & Deploy
 
 on:
-  push:
-    branches: [main]
-    # Só roda se os testes passaram
-  workflow_run:
-    workflows: ['🏐 Continuous Integration']
-    types: [completed]
-    branches: [main]
+  # Desativado para execução automática; manter apenas execução manual
+  workflow_dispatch:
 
 jobs:
   # 📋 CREATE RELEASE
