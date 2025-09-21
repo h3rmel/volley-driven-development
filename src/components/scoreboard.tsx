@@ -4,7 +4,9 @@ import { cn } from '@/lib/utils';
 
 import { addPointWithSetLogic, type ScoreState } from '@/domain/scoreboard';
 
+import { Badge } from './ui/badge';
 import { Button } from './ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card';
 
 interface ScoreboardProps {
   teamAName?: string;
@@ -30,47 +32,85 @@ export function Scoreboard({
       className={cn('flex flex-col gap-8', 'w-full max-w-md')}
     >
       <hgroup className={cn('flex flex-col', 'text-center')}>
-        <h1 className="scroll-m-20 border-b pb-4 text-4xl font-extrabold tracking-tight text-balance">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
           🏐 Placar de Vôlei 🏐
         </h1>
-        {/* Placar de sets */}
-        <div className={cn('flex flex-col pt-2', 'text-left')}>
-          <h2
-            className="scroll-m-20 text-xl font-semibold tracking-tight first:mt-0"
-            data-testid="sets-display"
-          >
-            Sets: {scoreState.teamA.name} {scoreState.teamA.sets} x{' '}
-            {scoreState.teamB.sets} {scoreState.teamB.name}
-          </h2>
-          {/* Placar de pontos */}
-          <h3
-            className="scroll-m-20 text-xl font-semibold tracking-tight"
-            data-testid="score-display"
-          >
-            Pontos: {scoreState.teamA.name} {scoreState.teamA.points} x{' '}
-            {scoreState.teamB.points} {scoreState.teamB.name}
-          </h3>
-        </div>
       </hgroup>
 
       {/* Botões para adicionar pontos */}
-      <div className={cn('flex justify-baseline items-center gap-4')}>
-        <Button
-          className="grow"
-          data-testid="team-a-button"
-          onClick={() => handleAddPoint(scoreState.teamA.name)}
-        >
-          +1 {scoreState.teamA.name}
-        </Button>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-center">Sets</CardTitle>
+          <div className={cn('flex flex-row gap-2')}>
+            <div
+              className={cn('flex flex-col items-center gap-2', 'w-full', 'text-center')}
+            >
+              <p className="text-lg">{scoreState.teamA.name}</p>
+              <Badge
+                variant="secondary"
+                className="h-6 min-w-6 rounded-full px-1 font-mono text-lg tabular-nums"
+              >
+                {scoreState.teamA.sets}
+              </Badge>
+            </div>
+            <div
+              className={cn('flex flex-col items-center gap-2', 'w-full', 'text-center')}
+            >
+              <p className="text-lg">{scoreState.teamB.name}</p>
+              <Badge
+                variant="secondary"
+                className="h-6 min-w-6 rounded-full px-1 font-mono text-lg tabular-nums"
+              >
+                {scoreState.teamB.sets}
+              </Badge>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-2">
+          <CardTitle className="text-center">Pontos</CardTitle>
+          <div className={cn('flex flex-row gap-2')}>
+            <div
+              className={cn('flex flex-col items-center gap-2', 'w-full', 'text-center')}
+            >
+              <p className="text-lg">{scoreState.teamA.name}</p>
+              <Badge
+                variant="secondary"
+                className="h-6 min-w-6 rounded-full px-1 font-mono text-lg tabular-nums"
+              >
+                {scoreState.teamA.points}
+              </Badge>
+            </div>
+            <div
+              className={cn('flex flex-col items-center gap-2', 'w-full', 'text-center')}
+            >
+              <p className="text-lg">{scoreState.teamB.name}</p>
+              <Badge
+                variant="secondary"
+                className="h-6 min-w-6 rounded-full px-1 font-mono text-lg tabular-nums"
+              >
+                {scoreState.teamB.points}
+              </Badge>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter className="space-x-4">
+          <Button
+            className="grow"
+            data-testid="team-a-button"
+            onClick={() => handleAddPoint(scoreState.teamA.name)}
+          >
+            +1 {scoreState.teamA.name}
+          </Button>
 
-        <Button
-          className="grow"
-          data-testid="team-b-button"
-          onClick={() => handleAddPoint(scoreState.teamB.name)}
-        >
-          +1 {scoreState.teamB.name}
-        </Button>
-      </div>
+          <Button
+            className="grow"
+            data-testid="team-b-button"
+            onClick={() => handleAddPoint(scoreState.teamB.name)}
+          >
+            +1 {scoreState.teamB.name}
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

@@ -52,7 +52,7 @@ export function TeamSetup({ onGameStart }: TeamSetupProps) {
     <div
       className={cn(
         'w-full max-w-md min-h-dvh',
-        'flex flex-col items-center gap-8',
+        'flex flex-col items-center justify-center gap-8',
         'py-8 px-4 mx-auto',
       )}
       data-testid="team-setup"
