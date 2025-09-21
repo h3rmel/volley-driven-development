@@ -3,12 +3,10 @@ import { Before, Given, Then, When } from '@cucumber/cucumber';
 import {
   addPointWithSetLogic,
   checkSetWinner,
-  formatScore,
-  formatSets,
   parseScore,
   parseSets,
   type ScoreState,
-} from '../../src/domain/scoreboard.js';
+} from '@/domain/scoreboard';
 
 export let currentState: ScoreState;
 
@@ -51,7 +49,9 @@ Given('que o placar do set atual é {string}', function (score: string) {
         }
       : parsedScore;
 
-  console.info(`Estado inicial: ${formatScore(currentState)}`);
+  console.info(
+    `Estado inicial: ${currentState.teamA.name} ${currentState.teamA.points} x ${currentState.teamB.points} ${currentState.teamB.name}`,
+  );
 });
 
 Given('que o placar de sets é {string}', function (setsScore: string) {
@@ -67,7 +67,9 @@ Given('que o placar de sets é {string}', function (setsScore: string) {
         teamB: { ...teamB, points: 0 },
       };
 
-  console.info(`Sets configurados: ${formatSets(currentState)}`);
+  console.info(
+    `Sets configurados: ${currentState.teamA.name} ${currentState.teamA.sets} x ${currentState.teamB.sets} ${currentState.teamB.name}`,
+  );
 });
 
 When('eu clico no botão de adicionar ponto para o {string}', function (teamName: string) {
@@ -76,7 +78,7 @@ When('eu clico no botão de adicionar ponto para o {string}', function (teamName
 });
 
 Then('o placar do set atual deve ser {string}', function (expectedScore: string) {
-  const actualScore = formatScore(currentState);
+  const actualScore = `${currentState.teamA.name} ${currentState.teamA.points} x ${currentState.teamB.points} ${currentState.teamB.name}`;
   assertExpected(actualScore, expectedScore, 'placar');
   console.info(`✓ Placar correto: ${actualScore}`);
 });
@@ -84,7 +86,7 @@ Then('o placar do set atual deve ser {string}', function (expectedScore: string)
 Then(
   'o placar de sets vencidos deve ser atualizado para {string}',
   function (expectedSets: string) {
-    const actualSets = formatSets(currentState);
+    const actualSets = `${currentState.teamA.name} ${currentState.teamA.sets} x ${currentState.teamB.sets} ${currentState.teamB.name}`;
     assertExpected(actualSets, expectedSets, 'sets');
     console.info(`✓ Sets corretos: ${actualSets}`);
   },
@@ -93,14 +95,14 @@ Then(
 Then(
   'o placar do próximo set deve ser resetado para {string}',
   function (expectedScore: string) {
-    const actualScore = formatScore(currentState);
+    const actualScore = `${currentState.teamA.name} ${currentState.teamA.points} x ${currentState.teamB.points} ${currentState.teamB.name}`;
     assertExpected(actualScore, expectedScore, 'pontos resetados');
     console.info(`✓ Pontos resetados: ${actualScore}`);
   },
 );
 
 Then('o placar de sets deve continuar {string}', function (expectedSets: string) {
-  const actualSets = formatSets(currentState);
+  const actualSets = `${currentState.teamA.name} ${currentState.teamA.sets} x ${currentState.teamB.sets} ${currentState.teamB.name}`;
   assertExpected(actualSets, expectedSets, 'sets continuarem');
   console.info(`✓ Sets continuam: ${actualSets}`);
 });
@@ -110,7 +112,9 @@ Then('nenhum set deve ser vencido ainda', function () {
   if (winner !== null) {
     throw new Error(`Não deveria haver vencedor do set ainda, mas ${winner} venceu`);
   }
-  console.info(`✓ Nenhum set vencido ainda - placar: ${formatScore(currentState)}`);
+  console.info(
+    `✓ Nenhum set vencido ainda - placar: ${currentState.teamA.name} ${currentState.teamA.points} x ${currentState.teamB.points} ${currentState.teamB.name}`,
+  );
 });
 
 // #endregion

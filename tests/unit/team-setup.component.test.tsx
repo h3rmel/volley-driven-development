@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { TeamSetup } from '../../src/components/team-setup';
+import { TeamSetup } from '@/components/team-setup';
 
 describe('TeamSetup Component', () => {
   describe('Initial Render', () => {

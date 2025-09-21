@@ -8,7 +8,7 @@ import {
   setTeamBName,
   validateTeamSetup,
   type TeamSetupState,
-} from '../../src/domain/team-setup';
+} from '@/domain/team-setup';
 
 describe('Team Setup Domain Logic', () => {
   describe('createInitialSetup', () => {

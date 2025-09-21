@@ -1,13 +1,14 @@
 import { Before, Given, Then, When } from '@cucumber/cucumber';
 
-import type { ScoreState } from '../../src/domain/scoreboard';
+import type { ScoreState } from '@/domain/scoreboard';
 import {
   createInitialSetup,
   getValidatedTeamNames,
   setTeamAName,
   setTeamBName,
   type TeamSetupState,
-} from '../../src/domain/team-setup';
+} from '@/domain/team-setup';
+
 import { setCurrentState } from './scoreboard.steps';
 
 // Global state for BDD tests

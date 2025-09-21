@@ -2,12 +2,7 @@ import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import {
-  addPointWithSetLogic,
-  formatScore,
-  formatSets,
-  type ScoreState,
-} from '@/domain/scoreboard';
+import { addPointWithSetLogic, type ScoreState } from '@/domain/scoreboard';
 
 import { Button } from './ui/button';
 
@@ -44,14 +39,16 @@ export function Scoreboard({
             className="scroll-m-20 text-xl font-semibold tracking-tight first:mt-0"
             data-testid="sets-display"
           >
-            Sets: {formatSets(scoreState)}
+            Sets: {scoreState.teamA.name} {scoreState.teamA.sets} x{' '}
+            {scoreState.teamB.sets} {scoreState.teamB.name}
           </h2>
           {/* Placar de pontos */}
           <h3
             className="scroll-m-20 text-xl font-semibold tracking-tight"
             data-testid="score-display"
           >
-            Pontos: {formatScore(scoreState)}
+            Pontos: {scoreState.teamA.name} {scoreState.teamA.points} x{' '}
+            {scoreState.teamB.points} {scoreState.teamB.name}
           </h3>
         </div>
       </hgroup>

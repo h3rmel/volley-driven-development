@@ -65,11 +65,6 @@ export function addPoint(state: ScoreState, teamName: string): ScoreState {
   throw new Error(`Team "${trimmedName}" not found`);
 }
 
-/** Formats score as "Team A 10 x 9 Team B" */
-export function formatScore(state: ScoreState): string {
-  return `${state.teamA.name} ${state.teamA.points} x ${state.teamB.points} ${state.teamB.name}`;
-}
-
 /** Parses "Team A 10 x 9 Team B" into ScoreState */
 export function parseScore(scoreString: string): ScoreState {
   const { teamAName, teamAPoints, teamBPoints, teamBName } =
@@ -121,11 +116,6 @@ export function finishSet(state: ScoreState, winnerName: string): ScoreState {
 
   // Winner not found - throw error
   throw new Error(`Winner "${trimmedName}" not found`);
-}
-
-/** Formats sets as "Team A 1 x 0 Team B" */
-export function formatSets(state: ScoreState): string {
-  return `${state.teamA.name} ${state.teamA.sets} x ${state.teamB.sets} ${state.teamB.name}`;
 }
 
 /** Parses "Team A 1 x 0 Team B" into team names and set counts */

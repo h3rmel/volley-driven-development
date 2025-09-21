@@ -3,11 +3,10 @@ import { describe, expect, it } from 'vitest';
 import {
   addPoint,
   finishSet,
-  formatScore,
   parseScore,
   parseSets,
   type ScoreState,
-} from '../../src/domain/scoreboard';
+} from '@/domain/scoreboard';
 
 describe('Scoreboard Domain Logic', () => {
   describe('parseScore', () => {
@@ -36,27 +35,6 @@ describe('Scoreboard Domain Logic', () => {
 
       expect(result.teamA.name).toBe('Team Alpha');
       expect(result.teamB.name).toBe('Team Beta');
-    });
-  });
-
-  describe('formatScore', () => {
-    it('should format score state correctly', () => {
-      const state: ScoreState = {
-        teamA: { name: 'Time A', points: 15, sets: 1 },
-        teamB: { name: 'Time B', points: 12, sets: 0 },
-      };
-
-      const result = formatScore(state);
-      expect(result).toBe('Time A 15 x 12 Time B');
-    });
-
-    it('should handle zero scores', () => {
-      const state: ScoreState = {
-        teamA: { name: 'Alpha', points: 0, sets: 0 },
-        teamB: { name: 'Beta', points: 0, sets: 0 },
-      };
-
-      expect(formatScore(state)).toBe('Alpha 0 x 0 Beta');
     });
   });
 
