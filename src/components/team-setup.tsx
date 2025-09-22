@@ -51,14 +51,14 @@ export function TeamSetup({ onGameStart }: TeamSetupProps) {
   return (
     <div
       className={cn(
-        'w-full max-w-md min-h-dvh',
+        'w-full max-w-lg min-h-dvh',
         'flex flex-col items-center justify-center gap-8',
         'py-8 px-4 mx-auto',
       )}
       data-testid="team-setup"
     >
       <hgroup className={cn('flex flex-col', 'text-center')}>
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
+        <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-balance">
           🏐 Placar de Vôlei 🏐
         </h1>
         <h2 className="scroll-m-20 text-xl text-muted-foreground font-semibold tracking-tight">
@@ -67,7 +67,7 @@ export function TeamSetup({ onGameStart }: TeamSetupProps) {
       </hgroup>
 
       <form
-        className={cn('flex flex-col gap-4', 'w-full', 'p-6 border')}
+        className={cn('flex flex-col gap-4', 'w-full', 'p-6 border rounded-md')}
         onSubmit={handleSubmit}
       >
         <div className={cn('flex flex-col gap-2')}>
