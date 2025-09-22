@@ -27,12 +27,9 @@ export function Scoreboard({
   }
 
   return (
-    <div
-      data-testid="scoreboard"
-      className={cn('flex flex-col gap-8', 'w-full max-w-md')}
-    >
+    <div data-testid="scoreboard" className={cn('flex flex-col gap-8', 'w-full')}>
       <hgroup className={cn('flex flex-col', 'text-center')}>
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
+        <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-balance">
           🏐 Placar de Vôlei 🏐
         </h1>
       </hgroup>
