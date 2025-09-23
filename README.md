@@ -4,6 +4,10 @@ This repository is a Proof of Concept (PoC) showcasing how to apply BDD (Behavio
 
 The app is a simple volleyball scoreboard. Business rules live in pure domain functions, and UI state is managed with Zustand.
 
+## Live Demo
+
+- Production: <https://volley-driven-development.vercel.app/>
+
 ## Tech Stack
 
 - React 19, TypeScript 5, Vite 7
