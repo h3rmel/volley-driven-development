@@ -1,13 +1,44 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/volleyball.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <meta
+      name="description"
+      content="Placar de Vôlei em React + TypeScript com Zustand."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Placar de Vôlei</title>
   </head>
   <body>
-    <div id="root"></div>
+    <noscript>
+      <div
+        style="
+          padding: 1rem;
+          max-width: 48rem;
+          margin: 1rem auto;
+          border: 1px solid #e11d48;
+          border-radius: 0.5rem;
+          background: #fef2f2;
+          color: #991b1b;
+        "
+      >
+        Este aplicativo requer JavaScript para funcionar corretamente. Habilite o
+        JavaScript no seu navegador.
+      </div>
+    </noscript>
+    <div id="root">
+      <div
+        role="status"
+        aria-live="polite"
+        style="text-align: center; padding: 2rem; color: #64748b"
+      >
+        Carregando…
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
