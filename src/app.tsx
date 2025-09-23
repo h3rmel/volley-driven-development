@@ -1,27 +1,25 @@
-import { useState } from 'react';
-
 import { Scoreboard } from '@/components/scoreboard';
 import { TeamSetup } from '@/components/team-setup';
 import { Button } from '@/components/ui/button';
 
 import { cn } from '@/lib/utils';
 
-type AppState =
-  | { screen: 'setup' }
-  | { screen: 'game'; teamAName: string; teamBName: string };
+import { useAppStore, useScoreboardStore } from '@/stores';
 
 function App() {
-  const [appState, setAppState] = useState<AppState>({ screen: 'setup' });
+  const { screen, startGame, newGame } = useAppStore((s) => s);
+  const { setTeamNames } = useScoreboardStore((s) => s);
 
   const handleGameStart = (teamAName: string, teamBName: string) => {
-    setAppState({ screen: 'game', teamAName, teamBName });
+    startGame(teamAName, teamBName);
+    setTeamNames(teamAName, teamBName);
   };
 
   const handleNewGame = () => {
-    setAppState({ screen: 'setup' });
+    newGame();
   };
 
-  if (appState.screen === 'setup') {
+  if (screen === 'setup') {
     return <TeamSetup onGameStart={handleGameStart} />;
   }
 
@@ -33,7 +31,7 @@ function App() {
         'py-8 px-4 mx-auto',
       )}
     >
-      <Scoreboard teamAName={appState.teamAName} teamBName={appState.teamBName} />
+      <Scoreboard />
       <div>
         <Button data-testid="new-game-button" onClick={handleNewGame}>
           🔄 Novo Jogo

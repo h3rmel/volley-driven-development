@@ -1,29 +1,16 @@
-import { useState } from 'react';
-
 import { cn } from '@/lib/utils';
 
-import { addPointWithSetLogic, type ScoreState } from '@/domain/scoreboard';
+import { useScoreboardStore } from '@/stores';
 
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card';
 
-interface ScoreboardProps {
-  teamAName?: string;
-  teamBName?: string;
-}
-
-export function Scoreboard({
-  teamAName = 'Time A',
-  teamBName = 'Time B',
-}: ScoreboardProps) {
-  const [scoreState, setScoreState] = useState<ScoreState>({
-    teamA: { name: teamAName, points: 0, sets: 0 },
-    teamB: { name: teamBName, points: 0, sets: 0 },
-  });
+export function Scoreboard() {
+  const { teamA, teamB, addPoint } = useScoreboardStore((s) => s);
 
   function handleAddPoint(teamName: string) {
-    setScoreState((currentState) => addPointWithSetLogic(currentState, teamName));
+    addPoint(teamName);
   }
 
   return (
@@ -42,23 +29,23 @@ export function Scoreboard({
             <div
               className={cn('flex flex-col items-center gap-2', 'w-full', 'text-center')}
             >
-              <p className="text-lg">{scoreState.teamA.name}</p>
+              <p className="text-lg">{teamA.name}</p>
               <Badge
                 variant="secondary"
                 className="h-6 min-w-6 rounded-full px-1 font-mono text-lg tabular-nums"
               >
-                {scoreState.teamA.sets}
+                {teamA.sets}
               </Badge>
             </div>
             <div
               className={cn('flex flex-col items-center gap-2', 'w-full', 'text-center')}
             >
-              <p className="text-lg">{scoreState.teamB.name}</p>
+              <p className="text-lg">{teamB.name}</p>
               <Badge
                 variant="secondary"
                 className="h-6 min-w-6 rounded-full px-1 font-mono text-lg tabular-nums"
               >
-                {scoreState.teamB.sets}
+                {teamB.sets}
               </Badge>
             </div>
           </div>
@@ -69,23 +56,23 @@ export function Scoreboard({
             <div
               className={cn('flex flex-col items-center gap-2', 'w-full', 'text-center')}
             >
-              <p className="text-lg">{scoreState.teamA.name}</p>
+              <p className="text-lg">{teamA.name}</p>
               <Badge
                 variant="secondary"
                 className="h-6 min-w-6 rounded-full px-1 font-mono text-lg tabular-nums"
               >
-                {scoreState.teamA.points}
+                {teamA.points}
               </Badge>
             </div>
             <div
               className={cn('flex flex-col items-center gap-2', 'w-full', 'text-center')}
             >
-              <p className="text-lg">{scoreState.teamB.name}</p>
+              <p className="text-lg">{teamB.name}</p>
               <Badge
                 variant="secondary"
                 className="h-6 min-w-6 rounded-full px-1 font-mono text-lg tabular-nums"
               >
-                {scoreState.teamB.points}
+                {teamB.points}
               </Badge>
             </div>
           </div>
@@ -94,17 +81,17 @@ export function Scoreboard({
           <Button
             className="grow"
             data-testid="team-a-button"
-            onClick={() => handleAddPoint(scoreState.teamA.name)}
+            onClick={() => handleAddPoint(teamA.name)}
           >
-            +1 {scoreState.teamA.name}
+            +1 {teamA.name}
           </Button>
 
           <Button
             className="grow"
             data-testid="team-b-button"
-            onClick={() => handleAddPoint(scoreState.teamB.name)}
+            onClick={() => handleAddPoint(teamB.name)}
           >
-            +1 {scoreState.teamB.name}
+            +1 {teamB.name}
           </Button>
         </CardFooter>
       </Card>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Info } from 'lucide-react';
 
@@ -9,34 +9,33 @@ import { Label } from '@/components/ui/label';
 
 import { cn } from '@/lib/utils';
 
-import {
-  createInitialSetup,
-  getValidatedTeamNames,
-  setTeamAName,
-  setTeamBName,
-  type TeamSetupState,
-} from '@/domain/team-setup';
+import { getValidatedTeamNames } from '@/domain/team-setup';
+import { useTeamSetupStore } from '@/stores';
 
 interface TeamSetupProps {
   onGameStart: (teamAName: string, teamBName: string) => void;
 }
 
 export function TeamSetup({ onGameStart }: TeamSetupProps) {
-  const [setupState, setSetupState] = useState<TeamSetupState>(createInitialSetup);
+  const { teamAName, teamBName, errorMessage, isValid, setTeamAName, setTeamBName } =
+    useTeamSetupStore((s) => s);
 
   function handleTeamAChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const newState = setTeamAName(setupState, event.target.value);
-    setSetupState(newState);
+    setTeamAName(event.target.value);
   }
 
   function handleTeamBChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const newState = setTeamBName(setupState, event.target.value);
-    setSetupState(newState);
+    setTeamBName(event.target.value);
   }
 
   function handleStartGame() {
-    if (setupState.isValid) {
-      const teamNames = getValidatedTeamNames(setupState);
+    if (isValid) {
+      const teamNames = getValidatedTeamNames({
+        teamAName,
+        teamBName,
+        errorMessage,
+        isValid,
+      });
       if (teamNames) {
         onGameStart(teamNames.teamA, teamNames.teamB);
       }
@@ -76,7 +75,7 @@ export function TeamSetup({ onGameStart }: TeamSetupProps) {
             id="team-a-input"
             data-testid="team-a-input"
             type="text"
-            value={setupState.teamAName}
+            value={teamAName}
             onChange={handleTeamAChange}
             placeholder="Ex: Flamengo"
           />
@@ -88,24 +87,20 @@ export function TeamSetup({ onGameStart }: TeamSetupProps) {
             id="team-b-input"
             data-testid="team-b-input"
             type="text"
-            value={setupState.teamBName}
+            value={teamBName}
             onChange={handleTeamBChange}
             placeholder="Ex: Santos"
           />
         </div>
 
-        {setupState.errorMessage && (
+        {errorMessage && (
           <Alert variant="destructive" data-testid="error-message">
             <AlertTitle>Erro:</AlertTitle>
-            <AlertDescription>{setupState.errorMessage}</AlertDescription>
+            <AlertDescription>{errorMessage}</AlertDescription>
           </Alert>
         )}
 
-        <Button
-          data-testid="start-game-button"
-          type="submit"
-          disabled={!setupState.isValid}
-        >
+        <Button data-testid="start-game-button" type="submit" disabled={!isValid}>
           🚀 Iniciar Jogo
         </Button>
       </form>
