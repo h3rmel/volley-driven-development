@@ -1,69 +1,71 @@
-# React + TypeScript + Vite
+# Volley Driven Development (PoC)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository is a Proof of Concept (PoC) showcasing how to apply BDD (Behavior‑Driven Development) and TDD (Test‑Driven Development) while building a modern React + TypeScript front‑end.
 
-Currently, two official plugins are available:
+The app is a simple volleyball scoreboard. Business rules live in pure domain functions, and UI state is managed with Zustand.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Live Demo
 
-## Expanding the ESLint configuration
+- Production: <https://volley-driven-development.vercel.app/>
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React 19, TypeScript 5, Vite 7
+- Zustand for state management
+- Vitest + Testing Library for TDD (unit and component tests)
+- Cucumber.js for BDD (features and step definitions)
+- Tailwind (plugin) and utility components
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Folder Structure (summary)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- `src/domain/`: pure business rules (immutable, testable)
+- `src/stores/`: Zustand stores delegating logic to the domain layer
+- `src/components/`: UI components
+- `tests/unit/`: unit and component tests (Vitest + RTL)
+- `tests/features/` and `tests/step-definitions/`: BDD specs (Cucumber.js)
+- `tests/vitest.setup.ts`: resets Zustand stores between tests
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `pnpm dev`: development server
+- `pnpm build`: production build
+- `pnpm preview`: preview built app
+- `pnpm lint` / `pnpm lint:fix`: linting
+- `pnpm test`: unit/component test suite (Vitest)
+- `pnpm test:coverage`: coverage (Vitest)
+- `pnpm test:ui`: Vitest UI runner
+- `pnpm test:bdd`: BDD scenarios (Cucumber.js)
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Getting Started
+
+1. Requirements: Node 20+, pnpm
+2. Install deps: `pnpm install`
+3. Start dev server: `pnpm dev`
+4. Run tests:
+   - TDD (unit/component): `pnpm test`
+   - BDD: `pnpm test:bdd`
+
+## BDD/TDD Approach
+
+- TDD: start with domain tests (`src/domain`), then stores (`src/stores`), then components (`src/components`).
+- BDD: high‑level behavioral scenarios validating user flows via UI interactions.
+
+## State & Domain
+
+- Stores in `src/stores` use selectors to minimize re‑renders and delegate rules to `src/domain`.
+- Examples:
+  - Scoreboard: `addPointWithSetLogic` applies set rules (25+ points and ≥2‑point lead).
+  - Team setup: name validation (non‑empty, distinct), with friendly error messages.
+
+## Quality & Conventions
+
+- Lint/format: `pnpm lint`, `pnpm format:check`, `pnpm format:write`
+- Local CI helpers: `pnpm ci:quality`, `pnpm ci:test`
+
+## Limitations
+
+This is a learning PoC. It is not production‑hardened (accessibility, i18n, performance, and CI/CD may require further work).
+
+## License
+
+[MIT](./LICENSE)
