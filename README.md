@@ -1,71 +1,120 @@
-# Volley Driven Development (PoC)
+# React TDD & BDD Showcase: Volleyball Scoreboard
 
-This repository is a Proof of Concept (PoC) showcasing how to apply BDD (Behavior‑Driven Development) and TDD (Test‑Driven Development) while building a modern React + TypeScript front‑end.
+## Abstract
 
-The app is a simple volleyball scoreboard. Business rules live in pure domain functions, and UI state is managed with Zustand.
+This project serves as a comprehensive case study and reference implementation for applying **Test-Driven Development (TDD)** and **Behavior-Driven Development (BDD)** methodologies within a modern React application.
 
-## Live Demo
+The core objective is to demonstrate how to decouple business logic from UI concerns using **Clean Architecture** principles, ensuring that the domain rules are testable, maintainable, and independent of the view layer. The chosen domain for this case study is a Volleyball Scoreboard, offering sufficient complexity (set logic, tie-breaks, victory conditions) to validate the architectural approach.
 
-- Production: <https://volley-driven-development.vercel.app/>
+## Architectural Overview
+
+The application follows a layered architecture to enforce separation of concerns:
+
+1.  **Domain Layer** (`src/domain`):
+    -   Contains pure TypeScript functions representing business rules.
+    -   Framework-agnostic and side-effect free.
+    -   Tested extensively via Unit Tests.
+
+2.  **Application Layer** (`src/stores`):
+    -   Manages application state using **Zustand**.
+    -   Acts as the glue between the UI and Domain layers.
+    -   Handles state transitions by delegating logic to the Domain layer.
+
+3.  **Presentation Layer** (`src/components`):
+    -   React components responsible solely for rendering UI and triggering actions.
+    -   Minimizes logic within components to enhance testability.
+
+## Methodologies Applied
+
+### Behavior-Driven Development (BDD)
+
+We utilize **Cucumber.js** to define high-level requirements in Gherkin syntax (`.feature` files). This ensures that the software behavior aligns with business requirements before implementation begins.
+
+-   **Specs**: Located in `tests/features/`.
+-   **Execution**: Scenarios drive the implementation of the UI and integration flows.
+
+### Test-Driven Development (TDD)
+
+The development lifecycle follows the "Red-Green-Refactor" cycle:
+
+1.  **Unit Tests**: Written for Domain functions using **Vitest**.
+2.  **Component Tests**: Written for React components using **React Testing Library**.
+3.  **Refactoring**: Continuous code improvement while maintaining test green state.
 
 ## Tech Stack
 
-- React 19, TypeScript 5, Vite 7
-- Zustand for state management
-- Vitest + Testing Library for TDD (unit and component tests)
-- Cucumber.js for BDD (features and step definitions)
-- Tailwind (plugin) and utility components
+-   **Runtime**: Node.js 20+
+-   **Framework**: React 19, Vite 7
+-   **Language**: TypeScript 5
+-   **State Management**: Zustand
+-   **Testing**:
+    -   Vitest (Unit/Component)
+    -   Cucumber.js (BDD/E2E)
+    -   React Testing Library
+-   **Styling**: Tailwind CSS 4
 
-## Folder Structure (summary)
+## Project Structure
 
-- `src/domain/`: pure business rules (immutable, testable)
-- `src/stores/`: Zustand stores delegating logic to the domain layer
-- `src/components/`: UI components
-- `tests/unit/`: unit and component tests (Vitest + RTL)
-- `tests/features/` and `tests/step-definitions/`: BDD specs (Cucumber.js)
-- `tests/vitest.setup.ts`: resets Zustand stores between tests
-
-## Scripts
-
-- `pnpm dev`: development server
-- `pnpm build`: production build
-- `pnpm preview`: preview built app
-- `pnpm lint` / `pnpm lint:fix`: linting
-- `pnpm test`: unit/component test suite (Vitest)
-- `pnpm test:coverage`: coverage (Vitest)
-- `pnpm test:ui`: Vitest UI runner
-- `pnpm test:bdd`: BDD scenarios (Cucumber.js)
+```text
+├── src/
+│   ├── domain/       # Pure business logic
+│   ├── stores/       # State management (Zustand)
+│   ├── components/   # React UI components
+│   └── main.tsx      # Entry point
+├── tests/
+│   ├── unit/         # Unit and Component tests
+│   ├── features/     # Gherkin feature files (BDD)
+│   └── steps/        # Cucumber step definitions
+└── package.json
+```
 
 ## Getting Started
 
-1. Requirements: Node 20+, pnpm
-2. Install deps: `pnpm install`
-3. Start dev server: `pnpm dev`
-4. Run tests:
-   - TDD (unit/component): `pnpm test`
-   - BDD: `pnpm test:bdd`
+### Prerequisites
 
-## BDD/TDD Approach
+-   Node.js 20 or higher
+-   pnpm (recommended)
 
-- TDD: start with domain tests (`src/domain`), then stores (`src/stores`), then components (`src/components`).
-- BDD: high‑level behavioral scenarios validating user flows via UI interactions.
+### Installation
 
-## State & Domain
+```bash
+pnpm install
+```
 
-- Stores in `src/stores` use selectors to minimize re‑renders and delegate rules to `src/domain`.
-- Examples:
-  - Scoreboard: `addPointWithSetLogic` applies set rules (25+ points and ≥2‑point lead).
-  - Team setup: name validation (non‑empty, distinct), with friendly error messages.
+### Development
 
-## Quality & Conventions
+Start the development server:
 
-- Lint/format: `pnpm lint`, `pnpm format:check`, `pnpm format:write`
-- Local CI helpers: `pnpm ci:quality`, `pnpm ci:test`
+```bash
+pnpm dev
+```
 
-## Limitations
+### Testing
 
-This is a learning PoC. It is not production‑hardened (accessibility, i18n, performance, and CI/CD may require further work).
+This project emphasizes quality assurance through multiple testing layers:
+
+-   **Run Unit & Component Tests (TDD)**:
+    ```bash
+    pnpm test
+    ```
+
+-   **Run BDD Scenarios**:
+    ```bash
+    pnpm test:bdd
+    ```
+
+-   **Run All CI Checks**:
+    ```bash
+    pnpm ci:all
+    ```
+
+## Quality Assurance
+
+Code quality is enforced via strict linting and formatting rules:
+
+-   **Linting**: `pnpm lint` (ESLint)
+-   **Formatting**: `pnpm format:check` (Prettier)
 
 ## License
 
-[MIT](./LICENSE)
+This project is open-source and available under the [MIT License](./LICENSE).
